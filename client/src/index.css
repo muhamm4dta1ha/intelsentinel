@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,900&family=Barlow:wght@300;400;600;700&display=swap');
+
+:root {
+  --red: #e8001e;
+  --red-dim: #8a0012;
+  --red-glow: rgba(232, 0, 30, 0.25);
+  --bg: #030303;
+  --bg2: #080808;
+  --bg3: #0d0d0d;
+  --border: #1c1c1c;
+  --border-red: rgba(232, 0, 30, 0.3);
+  --text: #e8e8e8;
+  --muted: #555;
+  --dim: #888;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scanline overlay */
+body::before {
+  content: '';
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.025) 2px, rgba(0,0,0,0.025) 4px);
+  pointer-events: none; z-index: 9999;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--red-dim); }
+::-webkit-scrollbar-thumb:hover { background: var(--red); }
+
+/* Leaflet map dark override */
+.leaflet-container {
+  background: #000 !important;
+  font-family: 'Barlow', sans-serif !important;
+}
+.leaflet-tile { filter: grayscale(1) brightness(0.25) contrast(1.2) !important; }
+.leaflet-control-zoom a {
+  background: #0d0d0d !important;
+  color: #e8001e !important;
+  border-color: #1c1c1c !important;
+}
+.leaflet-control-attribution { display: none !important; }
+
+/* Custom marker pings */
+@keyframes ping {
+  75%, 100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Pulse dot */
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 var(--red-glow); }
+  50% { box-shadow: 0 0 0 6px transparent; }
+}
+
+.live-pulse {
+  animation: pulse-dot 2s infinite;
+}
+
+/* Page fade in */
+.page-enter {
+  animation: fadeSlideIn 0.2s ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Card hover */
+.intel-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s;
+}
+.intel-card:hover {
+  border-color: var(--border-red);
+}
+
+/* Tables */
+.intel-table thead th {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--red);
+  text-transform: uppercase;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-red);
+  background: var(--bg3);
+  white-space: nowrap;
+}
+.intel-table tbody td {
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  color: var(--dim);
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.intel-table tbody tr:hover td {
+  background: rgba(232, 0, 30, 0.04);
+  color: var(--text);
+}
+
+/* Recharts overrides */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line { stroke: #1c1c1c !important; }
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #0d0d0d !important;
+  border: 1px solid var(--border-red) !important;
+  border-radius: 0 !important;
+}
+.recharts-legend-item-text { color: #888 !important; font-size: 11px !important; }
